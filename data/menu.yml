@@ -1,0 +1,13 @@
+items:
+  - title: "Home"
+    path: "/"
+    icon: "fa-solid fa-home"
+  - title: "About"
+    path: "/about"
+    icon: "fa-solid fa-info-circle"
+  - title: "Events"
+    path: "/events"
+    icon: "fa-solid fa-calendar"
+  - title: "Contact"
+    path: "/contact"
+    icon: "fa-solid fa-envelope" 

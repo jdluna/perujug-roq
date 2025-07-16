@@ -1,0 +1,18 @@
+perujug:
+  name: "PeruJUG Team"
+  job: Java User Group
+  nickname: perujug
+  profile: "https://github.com/perujug"
+  avatar: "/images/perujug2023.png"
+  bio: |
+    PeruJUG is the Java User Group of Peru, a community of Java developers passionate about sharing knowledge and experiences.
+    We organize meetups, workshops, and conferences to promote Java technology in Peru.
+
+admin:
+  name: "PeruJUG Administrator"
+  job: Community Manager
+  nickname: admin
+  profile: "https://github.com/perujug"
+  avatar: "/images/logo.png"
+  bio: |
+    Administrator of the PeruJUG community, helping to organize events and manage the community. 
