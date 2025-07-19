@@ -1,5 +1,4 @@
 @charset "utf-8";
-@charset "utf-8";
 h1,
 h2,
 h3,
@@ -204,76 +203,3 @@ p.rss-subscribe {
 .lugar{margin-top: 80px; margin-left: 40px!important;}
 
 .titlejava{font-size: 30px; color: #83a60a;text-decoration: underline;margin-bottom: 15px;font-weight: bold;}
-
-/* Custom dropdown implementation */
-.dropdown-container {
-    position: relative !important;
-}
-
-.dropdown-content {
-    z-index: 9999 !important;
-    position: absolute !important;
-    top: 100% !important;
-    left: 0 !important;
-    background-color: #fff !important;
-    border: 1px solid #ddd !important;
-    border-radius: 2px !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-    min-width: 150px !important;
-    display: none !important;
-    opacity: 0 !important;
-    transition: opacity 0.3s ease !important;
-}
-
-.dropdown-content.show {
-    display: block !important;
-    opacity: 1 !important;
-}
-
-.dropdown-trigger {
-    cursor: pointer !important;
-    position: relative !important;
-}
-
-.dropdown-content li {
-    display: block !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.dropdown-content li a {
-    color: #26a69a !important;
-    display: block !important;
-    padding: 10px 20px !important;
-    text-decoration: none !important;
-    transition: background-color 0.3s ease !important;
-    white-space: nowrap !important;
-}
-
-.dropdown-content li a:hover {
-    background-color: #f5f5f5 !important;
-}
-
-/* Ensure the dropdown container doesn't interfere with navigation */
-.dropdown-container {
-    display: inline-block !important;
-}
-
-.dropdown-trigger {
-    cursor: pointer;
-}
-
-.dropdown-content li {
-    display: block !important;
-}
-
-.dropdown-content li a {
-    color: #26a69a !important;
-    display: block !important;
-    padding: 10px 20px !important;
-    text-decoration: none !important;
-}
-
-.dropdown-content li a:hover {
-    background-color: #f5f5f5 !important;
-}

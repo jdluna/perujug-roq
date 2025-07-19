@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+    <title>{#if page.data.title??}{page.data.title}{#else}PeruJUG{/if}</title>
+    <meta name="description" content="{#if page.data.description??}{page.data.description}{#else}Comunidad de @java en Perú y @javaee_guardian{/if}" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen,projection" href="{site.file('materialize.css')}" />
+    <link rel="stylesheet" type="text/css" media="screen,projection" href="{site.file('main.css')}">
+    <link rel="canonical" href="{site.url}{page.url}" />
+</head>
+
+<body>
+    {#insert /}
+    
+    <!-- Scripts-->
+    <script src="{site.file('js/jquery.min.js')}"></script>
+    <script src="{site.file('js/materialize.min.js')}"></script>
+    <script src="{site.file('js/init.js')}"></script>
+</body>
+
+</html> 

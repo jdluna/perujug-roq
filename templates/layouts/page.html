@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+<nav class="teal darken-4" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" class="brand-logo" href="{site.url}">
+            <img src="{site.file('images/logo.png')}" height="35" width="31">
+            &#160; | <small>perujug.org</small>
+        </a>
+
+        <ul class="nav-wrapper right hide-on-med-and-down">
+            <li><a href="{site.url}">Inicio</a></li>
+            <li><a href="https://jconfperu.org/" target="_blank">Jconf Peru</a></li>
+            <li class="dropdown-container">
+                <a class="dropdown-trigger" data-target="dropdown1">Java Day<i class="material-icons right">arrow_drop_down</i></a>
+                <ul id="dropdown1" class="dropdown-content">
+                    <li><a href="{site.url('javaday/2018')}">Java Day 2018</a></li>
+                    <li><a href="{site.url('javaday/2019')}">Java Day 2019</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav teal darken-4">
+            <li><a href="{site.url}">Inicio</a></li>
+            <li><a href="{site.url('javaday/2018')}">Java Day 2018</a></li>
+            <li><a href="{site.url('javaday/2019')}">Java Day 2019</a></li>
+        </ul>
+
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+
+{#insert /}
+
+<footer class="page-footer teal lighten-1">
+    <div class="container">
+        <div class="row">
+            <div class="col l9 s12">
+                <h5 class="white-text"> PeruJUG</h5>
+                <p class="grey-text text-lighten-4">We are a team of professional Java developers working on spreading the rich ecosystem of Java like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+            </div>
+            <div class="col l3 s12">
+                <h5 class="white-text">Connect</h5>
+                <ul>
+                    <li><a class="white-text" href="https://www.facebook.com/groups/perujug" target="_blank">Facebook</a></li>
+                    <li><a class="white-text" href="https://twitter.com/perujug" target="_blank">Twitter</a></li>
+                    <li><a class="white-text" href="https://www.meetup.com/Peru-Java-User-Group/" target="_blank">Meet up</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            <div>
+                Made by PeruJUG community.
+                <span style="text-align: right; float: right">
+                Copyright © 2024. Powered by <a target="_blank" href="https://quarkus.io/" class="orange-text text-lighten-3">Quarkus ROQ</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</footer> 
