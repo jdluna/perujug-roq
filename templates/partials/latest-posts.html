@@ -1,0 +1,32 @@
+<!-- Latest Posts Section -->
+<!-- This template uses dynamic configuration from data/posts.yml -->
+<!-- Similar to roq-bistro's menu approach -->
+
+<div style="background: #ddd">
+  <div class="container last-post">
+    <section>
+      <h5>Latest Post</h5>
+      <ul class="collection">
+        {#for post in cdi:posts.latest_posts}
+        <li class="collection-item avatar">
+          <div class="date-post">{post.date}</div>
+          <span class="title">
+            <a class="post-link" href="{post.url}">{post.title}</a>
+            {#if post.category}
+            <span class="post-category" style="color: {#for cat in cdi:posts.categories}{#if cat.name == post.category}{cat.color}{/if}{/for}">
+              {post.category}
+            </span>
+            {/if}
+          </span>
+          <p>
+            {post.description}
+          </p>
+          <a href="{post.url}" class="secondary-content">
+            <i class="material-icons">navigate_next</i>
+          </a>
+        </li>
+        {/for}
+      </ul>
+    </section>
+  </div>
+</div> 

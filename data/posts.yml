@@ -1,0 +1,52 @@
+# Latest Posts Configuration
+# This file contains dynamic configuration for the Latest Posts section
+# Similar to roq-bistro's menu.yml approach
+
+latest_posts:
+  - title: "Java Day 2018"
+    date: "06/30"
+    description: "30th June was a fantastic day on Lima, Peru. 10 best Java developers around the world come to lecture the Peruvian Java community with the trends and future for this outstanding programming language."
+    url: "/java-day-2018/"
+    full_date: "June 30, 2018"
+    author: "PeruJUG"
+    category: "Events"
+    featured: true
+    tags: ["java", "conference", "peru"]
+    
+  - title: "Welcome to PeruJUG"
+    date: "05/20"
+    description: "This is an early version of the PeruJUG website, which will be improved surely."
+    url: "/welcome-to-perujug/"
+    full_date: "May 20, 2016"
+    author: "PeruJUG"
+    category: "Community"
+    featured: true
+    tags: ["community", "welcome"]
+
+# Configuration for different post sections
+post_sections:
+  featured:
+    title: "Featured Posts"
+    max_posts: 3
+    
+  events:
+    title: "Event Posts"
+    max_posts: 5
+    
+  community:
+    title: "Community Posts"
+    max_posts: 5
+
+# Post categories for filtering
+categories:
+  - name: "Events"
+    description: "Java events and conferences"
+    color: "#29b6f6"
+    
+  - name: "Community"
+    description: "Community announcements and updates"
+    color: "#83a60a"
+    
+  - name: "Technical"
+    description: "Technical articles and tutorials"
+    color: "#ff9800" 
