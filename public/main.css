@@ -554,3 +554,40 @@ p.rss-subscribe {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
 }
+
+/* Post styling */
+.post-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.post-tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.post-tags .title {
+    font-weight: bold;
+    color: #666;
+    margin-right: 0.5rem;
+}
+
+.post-tags .tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #29b6f6;
+    color: white;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.post-tags .tag:hover {
+    background-color: #0288d1;
+    text-decoration: none;
+}

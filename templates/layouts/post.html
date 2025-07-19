@@ -1,0 +1,64 @@
+---
+layout: default
+---
+
+{#include partials/navigation.html /}
+
+<div class="container">
+    <div class="section">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline" style="border-bottom: solid 1px #47586d; margin-bottom: 0.25rem;">
+                    {page.title}
+                </h1>
+                <p class="post-meta">
+                    <time datetime="{page.date}" itemprop="datePublished">{page.date.format("EEEE, MMM d, YYYY")}</time>
+                </p>
+            </header>
+
+            <div class="post-content" itemprop="articleBody">
+                {#insert /}
+            </div>
+            
+            <footer class="post-footer">
+                {#if page.data.tags and page.data.tags.size > 0}
+                <div class="post-tags">
+                    <span class="title">Tags: </span>
+                    {#for tag in page.data.tags}
+                    <span class="tag">{tag}</span>
+                    {/for}
+                </div>
+                {/if}
+            </footer>
+        </article>
+    </div>
+</div>
+
+<footer class="page-footer teal lighten-1">
+    <div class="container">
+        <div class="row">
+            <div class="col l9 s12">
+                <h5 class="white-text"> PeruJUG</h5>
+                <p class="grey-text text-lighten-4">We are a team of professional Java developers working on spreading the rich ecosystem of Java like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+            </div>
+            <div class="col l3 s12">
+                <h5 class="white-text">Connect</h5>
+                <ul>
+                    <li><a class="white-text" href="https://www.facebook.com/groups/perujug" target="_blank">Facebook</a></li>
+                    <li><a class="white-text" href="https://twitter.com/perujug" target="_blank">Twitter</a></li>
+                    <li><a class="white-text" href="https://www.meetup.com/Peru-Java-User-Group/" target="_blank">Meet up</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            <div>
+                Made by PeruJUG community.
+                <span style="text-align: right; float: right">
+                Copyright © 2024. Powered by <a target="_blank" href="https://quarkus.io/" class="orange-text text-lighten-3">Quarkus ROQ</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</footer> 
