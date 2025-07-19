@@ -41,7 +41,7 @@ post_sections:
 categories:
   - name: "Events"
     description: "Java events and conferences"
-    color: "#29b6f6"
+    color: "#83a60a"
     
   - name: "Community"
     description: "Community announcements and updates"

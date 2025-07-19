@@ -2,34 +2,7 @@
 layout: default
 ---
 
-<nav class="teal darken-4" role="navigation">
-    <div class="nav-wrapper container">
-        <a id="logo-container" class="brand-logo" href="{site.url}">
-            <img src="{site.file('images/logo.png')}" height="35" width="31">
-            &#160; | <small>perujug.org</small>
-        </a>
-
-        <ul class="nav-wrapper right hide-on-med-and-down">
-            <li><a href="{site.url}">Inicio</a></li>
-            <li><a href="https://jconfperu.org/" target="_blank">Jconf Peru</a></li>
-            <li class="dropdown-container">
-                <a class="dropdown-trigger" data-target="dropdown1">Java Day<i class="material-icons right">arrow_drop_down</i></a>
-                <ul id="dropdown1" class="dropdown-content">
-                    <li><a href="{site.url('javaday/2018')}">Java Day 2018</a></li>
-                    <li><a href="{site.url('javaday/2019')}">Java Day 2019</a></li>
-                </ul>
-            </li>
-        </ul>
-
-        <ul id="nav-mobile" class="side-nav teal darken-4">
-            <li><a href="{site.url}">Inicio</a></li>
-            <li><a href="{site.url('javaday/2018')}">Java Day 2018</a></li>
-            <li><a href="{site.url('javaday/2019')}">Java Day 2019</a></li>
-        </ul>
-
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-</nav>
+{#include partials/navigation.html /}
 
 {#insert /}
 

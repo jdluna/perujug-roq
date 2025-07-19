@@ -1,0 +1,60 @@
+<!-- Navigation Menu -->
+<!-- This template uses dynamic configuration from data/menu.yml -->
+<!-- Similar to roq-bistro's menu approach -->
+
+<nav class="teal darken-4" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" class="brand-logo" href="{site.url}">
+            <img src="{site.file('images/logo.png')}" height="35" width="31">
+            &#160; | <small>perujug.org</small>
+        </a>
+
+        <ul class="nav-wrapper right hide-on-med-and-down">
+            {#for item in cdi:menu.main_menu}
+            <li>
+                <a href="{item.url}" {#if item.external}target="_blank"{/if} class="nav-link">
+                    {#if item.icon}<i class="material-icons left">{item.icon}</i>{/if}
+                    <span class="nav-text">{item.title}</span>
+                </a>
+            </li>
+            {/for}
+            
+            <li class="dropdown-container">
+                <a class="dropdown-trigger" data-target="{cdi:menu.menu_config.dropdown_id}">
+                    <i class="material-icons left">{cdi:menu.events_dropdown.icon}</i>
+                    <span class="nav-text">{cdi:menu.events_dropdown.title}</span>
+                    <i class="material-icons right">{cdi:menu.events_dropdown.dropdown_icon}</i>
+                </a>
+                <ul id="{cdi:menu.menu_config.dropdown_id}" class="dropdown-content">
+                    {#for item in cdi:menu.events_dropdown.items}
+                    {#if item.type?? && item.type == "submenu"}
+                    <li class="submenu-container">
+                        <a href="#" class="submenu-trigger" data-target="{item.submenu_id}">
+                            {item.title}
+                            <i class="material-icons right">arrow_right</i>
+                        </a>
+                        <ul id="{item.submenu_id}" class="submenu-content">
+                            {#for subitem in item.items}
+                            <li><a href="{subitem.url}">{subitem.title}</a></li>
+                            {/for}
+                        </ul>
+                    </li>
+                    {#else}
+                    <li><a href="{item.url}">{item.title}</a></li>
+                    {/if}
+                    {/for}
+                </ul>
+            </li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav teal darken-4">
+            {#for item in cdi:menu.mobile_menu}
+            <li><a href="{item.url}">{item.title}</a></li>
+            {/for}
+        </ul>
+
+        <a href="#" data-activates="{cdi:menu.menu_config.mobile_activates}" class="button-collapse">
+            <i class="material-icons">menu</i>
+        </a>
+    </div>
+</nav> 

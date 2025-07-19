@@ -208,6 +208,7 @@ p.rss-subscribe {
 /* Custom dropdown implementation */
 .dropdown-container {
     position: relative !important;
+    display: inline-block !important;
 }
 
 .dropdown-content {
@@ -215,19 +216,26 @@ p.rss-subscribe {
     position: absolute !important;
     top: 100% !important;
     left: 0 !important;
-    background-color: #fff !important;
-    border: 1px solid #ddd !important;
-    border-radius: 2px !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-    min-width: 150px !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    min-width: 140px !important;
+    width: auto !important;
+    max-width: 200px !important;
     display: none !important;
-    opacity: 0 !important;
-    transition: opacity 0.3s ease !important;
+    opacity: 1 !important;
+    transition: all 0.3s ease !important;
+    margin-top: 5px !important;
+    visibility: hidden !important;
+    transform: translateY(-10px) !important;
 }
 
 .dropdown-content.show {
     display: block !important;
     opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
 }
 
 .dropdown-trigger {
@@ -239,41 +247,310 @@ p.rss-subscribe {
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+}
+
+.dropdown-content li:last-child {
+    border-bottom: none !important;
 }
 
 .dropdown-content li a {
     color: #26a69a !important;
-    display: block !important;
-    padding: 10px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 12px 20px !important;
     text-decoration: none !important;
-    transition: background-color 0.3s ease !important;
+    transition: background-color 0.2s ease !important;
     white-space: nowrap !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
 }
 
 .dropdown-content li a:hover {
     background-color: #f5f5f5 !important;
+    color: #00897b !important;
 }
 
-/* Ensure the dropdown container doesn't interfere with navigation */
-.dropdown-container {
-    display: inline-block !important;
+/* Additional dropdown visibility fixes */
+.dropdown-content {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    transition: all 0.3s ease !important;
 }
 
-.dropdown-trigger {
-    cursor: pointer;
+/* Override any Materialize transparency */
+.dropdown-content,
+.dropdown-content * {
+    background-color: transparent !important;
+}
+
+.dropdown-content {
+    background-color: #ffffff !important;
 }
 
 .dropdown-content li {
-    display: block !important;
+    background-color: transparent !important;
 }
 
 .dropdown-content li a {
+    background-color: transparent !important;
     color: #26a69a !important;
-    display: block !important;
-    padding: 10px 20px !important;
-    text-decoration: none !important;
+    font-weight: 500 !important;
 }
 
 .dropdown-content li a:hover {
     background-color: #f5f5f5 !important;
+    color: #00897b !important;
+}
+
+/* Materialize dropdown override */
+.dropdown-content {
+    background-color: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.dropdown-content li a {
+    color: #26a69a !important;
+    background-color: transparent !important;
+}
+
+.dropdown-content li a:hover {
+    background-color: #f5f5f5 !important;
+    color: #00897b !important;
+}
+
+/* Navigation link styling for inline icons and text */
+.nav-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    white-space: nowrap !important;
+}
+
+.nav-link .material-icons {
+    font-size: 18px !important;
+    margin-right: 4px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+.nav-link .nav-text {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+
+/* Ensure navigation items are properly aligned */
+.nav-wrapper ul li a {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    padding: 0 15px !important;
+}
+
+/* Nested dropdown (submenu) styling */
+.submenu-container {
+    position: relative !important;
+}
+
+.submenu-trigger {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 12px 20px !important;
+    color: #26a69a !important;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease !important;
+    white-space: nowrap !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    background-color: transparent !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+}
+
+.submenu-trigger:hover {
+    background-color: #f5f5f5 !important;
+    color: #00897b !important;
+}
+
+.submenu-content {
+    position: absolute !important;
+    left: 100% !important;
+    top: 0 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    min-width: 140px !important;
+    width: auto !important;
+    max-width: 200px !important;
+    display: none !important;
+    opacity: 1 !important;
+    z-index: 10000 !important;
+    margin-left: 2px !important;
+    visibility: hidden !important;
+    transform: translateX(-10px) !important;
+    transition: all 0.3s ease !important;
+}
+
+.submenu-content.show {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+}
+
+.submenu-content li {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+}
+
+.submenu-content li:last-child {
+    border-bottom: none !important;
+}
+
+.submenu-content li a {
+    color: #26a69a !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 12px 20px !important;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease !important;
+    white-space: nowrap !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    background-color: transparent !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+}
+
+.submenu-content li a:hover {
+    background-color: #f5f5f5 !important;
+    color: #00897b !important;
+}
+
+/* Additional fixes for submenu visibility and positioning */
+.submenu-container {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.submenu-content {
+    position: absolute !important;
+    left: 100% !important;
+    top: 0 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    min-width: 160px !important;
+    display: none !important;
+    opacity: 1 !important;
+    z-index: 10000 !important;
+    margin-left: 2px !important;
+    visibility: hidden !important;
+    transform: translateX(-10px) !important;
+    transition: all 0.3s ease !important;
+    pointer-events: auto !important;
+}
+
+.submenu-content.show {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+    pointer-events: auto !important;
+}
+
+/* Ensure dropdown container doesn't clip submenus */
+.dropdown-container {
+    position: relative !important;
+    display: inline-block !important;
+    overflow: visible !important;
+}
+
+.dropdown-content {
+    overflow: visible !important;
+}
+
+/* Fix for dropdown positioning issues */
+.nav-wrapper ul li {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.nav-wrapper ul li.dropdown-container {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* Ensure submenu is always visible when shown */
+.submenu-content.show {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+    pointer-events: auto !important;
+    position: absolute !important;
+    z-index: 10000 !important;
+}
+
+/* Additional centering fixes for dropdown elements */
+.dropdown-content li a,
+.submenu-content li a,
+.submenu-trigger {
+    line-height: 1.2 !important;
+    vertical-align: middle !important;
+}
+
+/* Ensure consistent spacing and alignment */
+.dropdown-content,
+.submenu-content {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.dropdown-content li,
+.submenu-content li {
+    line-height: 1 !important;
+}
+
+/* Dynamic width calculation for dropdown containers */
+.dropdown-content {
+    width: fit-content !important;
+    white-space: nowrap !important;
+}
+
+.submenu-content {
+    width: fit-content !important;
+    white-space: nowrap !important;
+}
+
+/* Ensure text doesn't wrap and container adjusts to content */
+.dropdown-content li a,
+.submenu-content li a,
+.submenu-trigger {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
