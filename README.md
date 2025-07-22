@@ -1,6 +1,62 @@
 # PeruJUG Website - Quarkus ROQ Implementation
 
-This is the PeruJUG (Peru Java User Group) website implemented using Quarkus ROQ framework. The website has been migrated from the original Jekyll-based perujugwebsite to use modern Java technologies.
+This is the PeruJUG (Peru Java User Group) website implemented using Quarkus ROQ framework. The website has been migrated from the original Jekyll-based perujugwebsite to use modern Java technologies with automated deployment to GitHub Pages.
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Java 17 or higher
+- Maven 3.6 or higher (or use the included Maven wrapper)
+
+### Local Development
+```bash
+# Setup development environment
+./scripts/setup.sh setup
+
+# Start development server
+./scripts/setup.sh dev
+
+# Or use Maven directly
+./mvnw quarkus:dev
+```
+
+### Production Build
+```bash
+# Build for production
+./scripts/setup.sh build
+
+# Build static site for GitHub Pages
+./scripts/setup.sh static
+```
+
+## 🌐 Deployment
+
+This project is configured for automated deployment to GitHub Pages using GitHub Actions.
+
+### Automatic Deployment
+1. **Push to main branch** triggers automatic deployment
+2. **GitHub Actions** builds and deploys the site
+3. **Site is available** at your GitHub Pages URL
+
+### Manual Deployment
+1. Go to **Actions** tab in your repository
+2. Select **Deploy PeruJUG Site to GitHub Pages**
+3. Click **Run workflow**
+
+### Configuration
+- **GitHub Pages**: Enable in repository settings
+- **Secrets**: Configure `GITHUB_PAGES_URL` in repository secrets
+- **Branch**: Deploys from `main` or `master` branch
+
+## 🔒 Security
+
+This project follows security best practices:
+
+- ✅ **No secrets in code** - All sensitive data uses GitHub Secrets
+- ✅ **Security headers** - HSTS, CSP, and other security headers
+- ✅ **Dependency scanning** - Automated vulnerability scanning
+- ✅ **HTTPS enforcement** - All communications use HTTPS
+- ✅ **Access control** - Minimal required permissions
 
 ## About PeruJUG
 
@@ -29,51 +85,59 @@ PeruJUG (Peru Java User Group) is a community of Java developers and enthusiasts
 - **Responsive Design**: Built with Materialize CSS framework for mobile-friendly experience
 - **Modern Stack**: Powered by Quarkus ROQ for fast, efficient Java web development
 - **Dynamic Configuration**: YAML-based configuration for easy content management
+- **Automated Deployment**: GitHub Actions for continuous deployment
+- **Security First**: Comprehensive security measures and best practices
 
 ## Technology Stack
 
 - **Backend**: Quarkus 3.24.3 with ROQ framework
 - **Frontend**: Materialize CSS, jQuery, Google Maps API
-- **Build Tool**: Maven
+- **Build Tool**: Maven with Maven Wrapper
 - **Java Version**: 17
 - **Templating**: Qute template engine
+- **Deployment**: GitHub Actions + GitHub Pages
+- **Security**: Automated scanning and security headers
 
 ## Project Structure
 
 ```
 perujug-roq/
-├── content/                 # Website content
-│   ├── index.html          # Home page
-│   ├── about/              # About page
-│   │   └── index.md
-│   ├── contact/            # Contact page
-│   │   └── index.md
-│   ├── events/             # Events page
-│   │   └── index.md
-│   ├── javaday/            # Java Day event pages
-│   │   ├── 2018.html
-│   │   └── 2019.html
-│   └── posts/              # Blog posts
-├── templates/              # HTML templates
-│   ├── layouts/            # Layout templates
-│   │   ├── default.html    # Base layout
-│   │   └── page.html       # Page layout with header/footer
-│   └── partials/           # Reusable components
-│       ├── navigation.html # Navigation header
-│       ├── latest-posts.html # Latest posts section
-│       └── footer.html     # Site footer
-├── public/                 # Static assets
-│   ├── images/             # Images and logos
-│   ├── js/                 # JavaScript files
-│   ├── fonts/              # Font files
-│   ├── materialize.css     # Materialize CSS framework
-│   └── main.css            # Custom styles
-├── data/                   # Site data
-│   ├── menu.yml            # Navigation menu configuration
-│   ├── posts.yml           # Blog posts configuration
-│   └── authors.yml         # Author information
-└── config/                 # Application configuration
-    └── application.properties
+├── .github/
+│   ├── workflows/
+│   │   └── deploy.yml          # GitHub Actions workflow
+│   └── dependabot.yml          # Automated dependency updates
+├── config/
+│   ├── application.properties  # Development configuration
+│   └── prod/
+│       └── application.properties # Production configuration
+├── content/                    # Website content
+│   ├── index.html             # Home page
+│   ├── errors/                # Error pages
+│   ├── javaday/               # Java Day event pages
+│   ├── posts/                 # Blog posts
+│   └── meetups.html           # Meetups page
+├── templates/                  # HTML templates
+│   ├── layouts/               # Layout templates
+│   │   ├── default.html       # Base layout
+│   │   └── page.html          # Page layout with header/footer
+│   └── partials/              # Reusable components
+│       ├── navigation.html    # Navigation header
+│       └── footer.html        # Site footer
+├── public/                     # Static assets
+│   ├── images/                # Images and logos
+│   ├── js/                    # JavaScript files
+│   ├── fonts/                 # Font files
+│   ├── materialize.css        # Materialize CSS framework
+│   └── main.css               # Custom styles
+├── data/                       # Site data
+│   ├── menu.yml               # Navigation menu configuration
+│   ├── posts.yml              # Blog posts configuration
+│   └── authors.yml            # Author information
+├── scripts/
+│   └── setup.sh               # Development setup script
+├── src/                        # Java source code
+├── pom.xml                     # Maven configuration
+└── README.md                  # This file
 ```
 
 ## Getting Started
@@ -81,34 +145,35 @@ perujug-roq/
 ### Prerequisites
 
 - Java 17 or higher
-- Maven 3.6 or higher
+- Maven 3.6 or higher (or use the included Maven wrapper)
 
 ### Running the Application
 
 1. **Development Mode**:
    ```bash
+   ./scripts/setup.sh dev
+   # or
    ./mvnw quarkus:dev
    ```
 
 2. **Production Build**:
    ```bash
-   ./mvnw clean package
-   java -jar target/quarkus-app/quarkus-run.jar
+   ./scripts/setup.sh build
+   # or
+   ./mvnw clean package -Pprod
    ```
 
-3. **Native Build** (requires GraalVM):
+3. **Static Site Generation**:
    ```bash
-   ./mvnw clean package -Pnative
+   ./scripts/setup.sh static
+   # or
+   ./mvnw clean package -Pstatic
    ```
 
 ### Accessing the Website
 
-- **Home Page**: http://localhost:8080
-- **About Page**: http://localhost:8080/about/
-- **Contact Page**: http://localhost:8080/contact/
-- **Events Page**: http://localhost:8080/events/
-- **Java Day 2018**: http://localhost:8080/javaday/2018
-- **Java Day 2019**: http://localhost:8080/javaday/2019
+- **Local Development**: http://localhost:8080
+- **Production**: Your GitHub Pages URL (e.g., https://perujug.github.io/perujug-roq)
 
 ## Dynamic Configuration
 
@@ -199,223 +264,429 @@ menu_config:
 ### Adding New Pages
 
 1. Create a new HTML file in the `content/` directory
-2. Add front matter with metadata:
-   ```html
-   ---
-   title: Page Title
-   description: Page description
-   layout: page
-   ---
-   ```
+2. Add front matter with metadata
+3. Use the appropriate layout template
+4. Update navigation menu in `data/menu.yml` if needed
 
 ### Adding New Posts
 
-1. Add a new entry to `latest_posts` in `posts.yml`
-2. The post will automatically appear in the Latest Posts section
-3. No HTML changes required
-
-**Example:**
-```yaml
-- title: "New Java Tutorial"
-  date: "12/25"
-  description: "Learn about the latest Java features"
-  url: "/new-java-tutorial/"
-  full_date: "December 25, 2024"
-  author: "PeruJUG"
-  category: "Technical"
-  featured: true
-  tags: ["java", "tutorial", "learning"]
-```
-
-### Adding New Menu Items
-
-1. Add a new entry to `main_menu` in `menu.yml`
-2. The menu item will automatically appear in the navigation
-3. No HTML changes required
-
-**Example:**
-```yaml
-- title: "About Us"
-  url: "/about/"
-  icon: "info"
-  external: false
-```
+1. Create a new markdown file in `content/posts/`
+2. Add front matter with post metadata
+3. Update `data/posts.yml` to include the post in listings
 
 ### Adding New Events
 
-1. Add a new entry to `events_dropdown.items` in `menu.yml`
-2. The event will automatically appear in the Events dropdown
-3. Also add to `mobile_menu` for mobile navigation
-4. No HTML changes required
+1. Create event page in appropriate directory
+2. Update `data/menu.yml` to include in events dropdown
+3. Add event images to `public/images/`
 
-### Adding New Submenus
+## Development Workflow
 
-1. Add a new entry to `events_dropdown.items` with `type: "submenu"`
-2. Include a unique `submenu_id` and nested `items` array
-3. The submenu will appear in the Events dropdown with a right arrow
+### Local Development
+```bash
+# Setup environment
+./scripts/setup.sh setup
 
-**Example:**
-```yaml
-# Regular event
-- title: "Workshop"
-  url: "/workshop/"
-  description: "Java Workshop"
+# Start development server
+./scripts/setup.sh dev
 
-# Submenu with nested items
-- title: "Java Day"
-  type: "submenu"
-  submenu_id: "javaday-submenu"
-  items:
-    - title: "Java Day 2024"
-      url: "/javaday/2024/"
-      year: "2024"
-      description: "Java Day Peru 2024"
+# Run tests
+./scripts/setup.sh test
+
+# Check security
+./scripts/setup.sh security
 ```
 
-### Adding New Categories
+### Production Deployment
+```bash
+# Build static site
+./scripts/setup.sh static
 
-1. Add a new entry to `categories` in `posts.yml`
-2. Assign the category to posts
-3. The category will be displayed with its color
-
-## Template Integration
-
-The configuration is used in templates via Qute syntax:
-
-### Posts Template:
-```html
-{#for post in cdi:posts.latest_posts}
-<li class="collection-item avatar">
-  <div class="date-post">{post.date}</div>
-  <span class="title">
-    <a class="post-link" href="{post.url}">{post.title}</a>
-  </span>
-  <p>{post.description}</p>
-</li>
-{/for}
+# Test production build
+./scripts/setup.sh build
 ```
-
-### Menu Template:
-```html
-{#for item in cdi:menu.main_menu}
-<li>
-  <a href="{item.url}" {#if item.external}target="_blank"{/if} class="nav-link">
-    {#if item.icon}<i class="material-icons left">{item.icon}</i>{/if}
-    <span class="nav-text">{item.title}</span>
-  </a>
-</li>
-{/for}
-
-<li class="dropdown-container">
-  <a class="dropdown-trigger" data-target="{cdi:menu.menu_config.dropdown_id}">
-    <i class="material-icons left">{cdi:menu.events_dropdown.icon}</i>
-    <span class="nav-text">{cdi:menu.events_dropdown.title}</span>
-    <i class="material-icons right">{cdi:menu.events_dropdown.dropdown_icon}</i>
-  </a>
-  <ul id="{cdi:menu.menu_config.dropdown_id}" class="dropdown-content">
-    {#for item in cdi:menu.events_dropdown.items}
-    {#if item.type?? && item.type == "submenu"}
-    <li class="submenu-container">
-      <a href="#" class="submenu-trigger" data-target="{item.submenu_id}">
-        {item.title}
-        <i class="material-icons right">arrow_right</i>
-      </a>
-      <ul id="{item.submenu_id}" class="submenu-content">
-        {#for subitem in item.items}
-        <li><a href="{subitem.url}">{subitem.title}</a></li>
-        {/for}
-      </ul>
-    </li>
-    {#else}
-    <li><a href="{item.url}">{item.title}</a></li>
-    {/if}
-    {/for}
-  </ul>
-</li>
-```
-
-## Events
-
-### Upcoming Events
-
-Stay tuned for our upcoming events! We regularly host meetups, workshops, and conferences.
-
-### Past Events
-
-- **Java Day Peru 2023**: Our annual conference featuring international speakers and local Java experts
-- **Java Day Peru 2022**: A successful event with workshops, talks, and networking opportunities
-
-### Event Types
-
-- **Monthly Meetups**: Regular community gatherings
-- **Java Day Peru**: Annual conference
-- **Workshops**: Hands-on learning sessions
-- **Online Events**: Virtual meetups and webinars
-
-For more information about our events, follow us on social media or join our mailing list.
-
-## Contact
-
-### Get in Touch
-
-We'd love to hear from you! Here are the best ways to reach us:
-
-### Social Media
-
-- **Twitter**: [@perujug](https://twitter.com/perujug)
-- **GitHub**: [perujug](https://github.com/perujug)
-- **LinkedIn**: [perujug](https://linkedin.com/company/perujug)
-
-### Community Channels
-
-- **Meetup Group**: Join our meetup group for event updates
-- **Slack**: Connect with other community members
-- **Discord**: Join our Discord server for discussions
-
-### For Speakers
-
-Interested in speaking at one of our events? We're always looking for speakers to share their knowledge with the community.
-
-### For Sponsors
-
-Want to support our community? We welcome sponsors for our events and activities.
-
-### For Organizers
-
-Looking to start a JUG in your area? We're happy to help and share our experience.
 
 ---
 
-*PeruJUG is a volunteer-run community. We appreciate your patience and support!*
+# 🚀 Deployment Guide
 
-## Migration Notes
+## Quick Start
 
-This implementation successfully migrates the original Jekyll-based perujugwebsite to Quarkus ROQ while maintaining:
+1. **Enable GitHub Pages** in your repository settings
+2. **Set up GitHub Actions** (already configured)
+3. **Configure secrets** (see Security section below)
+4. **Push to main branch** to trigger deployment
 
-- **Visual Design**: Exact replication of the original Materialize CSS design
-- **Content Structure**: All original content preserved and properly formatted
-- **Functionality**: Google Maps integration, responsive navigation, and interactive elements
-- **Performance**: Improved performance through Quarkus's efficient Java runtime
-- **Dynamic Configuration**: Enhanced with YAML-based content management
+## Prerequisites
+
+- GitHub repository with GitHub Pages enabled
+- Java 17+ for local development
+- Maven 3.6+ for local builds
+
+## Configuration
+
+### GitHub Pages Setup
+
+1. Go to your repository **Settings** → **Pages**
+2. Set **Source** to "GitHub Actions"
+3. Choose your preferred branch (main/master)
+
+### Environment Variables & Secrets
+
+The deployment uses the following secrets that you can configure in your repository:
+
+#### Required Secrets
+
+| Secret Name | Description | Example |
+|-------------|-------------|---------|
+| `GITHUB_PAGES_URL` | Your GitHub Pages URL | `https://yourusername.github.io/your-repo` |
+
+#### Optional Secrets
+
+| Secret Name | Description | Default |
+|-------------|-------------|---------|
+| `QUARKUS_ROQ_SITE_URL` | Site URL for build | Auto-generated from repo |
+
+### How to Set Secrets
+
+1. Go to your repository **Settings** → **Secrets and variables** → **Actions**
+2. Click **New repository secret**
+3. Add each secret with its value
+
+**Important**: Never commit secrets to your repository. Always use GitHub Secrets.
+
+## Build Profiles
+
+The project includes several Maven profiles for different deployment scenarios:
+
+### Development Profile (default)
+```bash
+./mvnw quarkus:dev
+```
+
+### Production Profile
+```bash
+./mvnw clean package -Pprod
+```
+
+### Static Site Generation
+```bash
+./mvnw clean package -Pstatic
+```
+
+## Deployment Process
+
+### Automatic Deployment
+
+1. **Push to main branch** triggers the workflow
+2. **Build process**:
+   - Sets up Java 17 environment
+   - Verifies Maven wrapper
+   - Caches Maven dependencies and Quarkus builds
+   - Compiles the application
+   - Builds static site using the `static` profile
+   - Verifies generated site and essential files
+3. **Deployment process**:
+   - Downloads and verifies build artifacts
+   - Uploads to GitHub Pages
+   - Deploys to your GitHub Pages URL
+   - Provides deployment verification and timing
+
+### Manual Deployment
+
+You can also trigger deployment manually:
+
+1. Go to **Actions** tab in your repository
+2. Select **Deploy PeruJUG Site to GitHub Pages**
+3. Click **Run workflow**
+4. Choose branch and click **Run workflow**
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Build Fails**
+   - Check Java version (requires 17+)
+   - Verify Maven dependencies
+   - Check for syntax errors in content
+
+2. **Deployment Fails**
+   - Verify GitHub Pages is enabled
+   - Check repository permissions
+   - Ensure secrets are configured
+
+3. **Site Not Updating**
+   - Check GitHub Actions logs
+   - Verify deployment completed successfully
+   - Clear browser cache
+
+### Debug Commands
+
+```bash
+# Local build test with static profile
+./mvnw clean package -Pstatic
+
+# Check generated site
+ls -la target/site/
+
+# Verify essential files
+ls -la target/site/index.html
+
+# Test local server
+./mvnw quarkus:dev
+
+# Verify Maven wrapper
+./mvnw --version
+```
+
+## Monitoring
+
+### GitHub Actions Monitoring
+
+- **Build Status**: Check Actions tab for build/deploy status
+- **Deployment Logs**: View detailed logs for troubleshooting
+- **Performance**: Monitor build times and optimize if needed
+
+### Site Monitoring
+
+- **Uptime**: GitHub Pages provides 99.9% uptime
+- **Performance**: Static site generation ensures fast loading
+- **Security**: Regular security updates via GitHub Dependabot
+
+## Continuous Integration
+
+### Recent Workflow Improvements
+
+The GitHub Actions workflow has been optimized for better reliability and performance:
+
+- **Simplified Build Process**: Uses existing production configuration instead of generating it inline
+- **Enhanced Verification**: Multiple verification steps ensure build quality
+- **Better Error Handling**: Clear error messages and early failure detection
+- **Optimized Caching**: Improved caching strategy for faster builds
+- **Streamlined Artifacts**: Simplified artifact management and paths
+
+## Customization
+
+### Adding Custom Domains
+
+1. Configure custom domain in GitHub Pages settings
+2. Update `GITHUB_PAGES_URL` secret
+3. Add CNAME file to your repository
+
+### Environment-Specific Configurations
+
+Create additional profiles in `pom.xml` and corresponding config files in `config/`:
+
+```xml
+<profile>
+    <id>staging</id>
+    <properties>
+        <quarkus.profile>staging</quarkus.profile>
+    </properties>
+</profile>
+```
+
+---
+
+# 🔒 Security Policy
+
+## Supported Versions
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.0.x   | :white_check_mark: |
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability in the PeruJUG ROQ site, please follow these steps:
+
+### 1. **DO NOT** create a public GitHub issue
+Security vulnerabilities should be reported privately to prevent exploitation.
+
+### 2. Contact the Security Team
+Email: perujug@gmail.com
+Subject: [SECURITY] Vulnerability Report - PeruJUG ROQ Site
+
+### 3. Include the following information:
+- **Description**: Detailed description of the vulnerability
+- **Steps to reproduce**: Clear steps to reproduce the issue
+- **Impact**: Potential impact of the vulnerability
+- **Suggested fix**: If you have a suggested solution
+- **Affected versions**: Which versions are affected
+
+### 4. Response Timeline
+- **Initial response**: Within 48 hours
+- **Status update**: Within 7 days
+- **Resolution**: As soon as possible, typically within 30 days
+
+## Security Best Practices
+
+### For Contributors
+
+1. **Never commit secrets** to the repository
+2. **Use environment variables** for sensitive configuration
+3. **Keep dependencies updated** regularly
+4. **Follow secure coding practices**
+5. **Review code** for security issues before merging
+
+### For Deployment
+
+1. **Use GitHub Secrets** for all sensitive data
+2. **Enable security scanning** in GitHub
+3. **Monitor dependency vulnerabilities**
+4. **Use HTTPS** for all external communications
+5. **Implement proper access controls**
+
+## Security Features
+
+### Implemented Security Measures
+
+- ✅ **HTTPS Enforcement**: All communications use HTTPS
+- ✅ **Security Headers**: HSTS, CSP, and other security headers
+- ✅ **Input Validation**: All user inputs are validated
+- ✅ **Dependency Scanning**: Regular vulnerability scanning
+- ✅ **Secret Management**: No secrets in code or configuration
+- ✅ **Access Control**: Minimal required permissions
+
+### Security Headers
+
+The site implements the following security headers:
+
+- **Strict-Transport-Security**: Enforces HTTPS
+- **Content-Security-Policy**: Prevents XSS attacks
+- **X-Content-Type-Options**: Prevents MIME type sniffing
+- **X-Frame-Options**: Prevents clickjacking
+- **Referrer-Policy**: Controls referrer information
+
+## Dependency Security
+
+### Automated Scanning
+
+- **GitHub Dependabot**: Automatically scans for vulnerabilities
+- **Maven Security Plugin**: Checks for known vulnerabilities
+- **Regular Updates**: Dependencies are updated regularly
+
+### Manual Security Checks
+
+```bash
+# Check for vulnerabilities in dependencies
+./mvnw dependency:check
+
+# Update dependencies
+./mvnw versions:use-latest-versions
+
+# Audit dependencies
+./mvnw dependency:analyze
+```
+
+## Incident Response
+
+### Security Incident Process
+
+1. **Detection**: Identify and confirm the security incident
+2. **Assessment**: Evaluate the scope and impact
+3. **Containment**: Prevent further damage
+4. **Eradication**: Remove the threat
+5. **Recovery**: Restore normal operations
+6. **Lessons Learned**: Document and improve processes
+
+### Contact Information
+
+- **Security Team**: perujug@gmail.com
+- **Emergency Contact**: [To be provided]
+- **GitHub Security**: Use GitHub's security advisory feature
+
+## Compliance
+
+### Standards Compliance
+
+- **OWASP Top 10**: Follows OWASP security guidelines
+- **GDPR**: Compliant with data protection regulations
+- **Accessibility**: WCAG 2.1 AA compliant
+- **Performance**: Follows web performance best practices
+
+### Regular Security Reviews
+
+- **Monthly**: Dependency vulnerability review
+- **Quarterly**: Security configuration review
+- **Annually**: Comprehensive security audit
+
+## Security Features
+
+### Implemented Security Measures
+
+- **HTTPS Enforcement**: All communications use HTTPS
+- **Security Headers**: HSTS, CSP, and other security headers
+- **Input Validation**: All user inputs are validated
+- **Dependency Scanning**: Regular vulnerability scanning via Dependabot
+- **Secret Management**: No secrets in code or configuration
+- **Access Control**: Minimal required permissions for GitHub Actions
+
+### Security Headers
+
+The site implements the following security headers:
+
+- **Strict-Transport-Security**: Enforces HTTPS
+- **Content-Security-Policy**: Prevents XSS attacks
+- **X-Content-Type-Options**: Prevents MIME type sniffing
+- **X-Frame-Options**: Prevents clickjacking
+- **Referrer-Policy**: Controls referrer information
+
+## Monitoring and Maintenance
+
+### Automated Monitoring
+
+- **GitHub Actions**: Build and deployment status
+- **Dependabot**: Automated dependency updates
+- **Security Scanning**: Vulnerability detection
+- **Performance**: Build time monitoring
+
+### Manual Maintenance
+
+- **Monthly**: Review and update dependencies
+- **Quarterly**: Security configuration review
+- **Annually**: Comprehensive security audit
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test thoroughly
+4. Run tests and security checks
 5. Submit a pull request
 
-## Join Us
+### Development Guidelines
 
-Whether you're a beginner or an experienced Java developer, there's a place for you in our community. Join us at our next event and become part of the growing Java community in Peru!
+- Follow Java coding standards
+- Use meaningful commit messages
+- Test your changes locally
+- Update documentation as needed
+- Follow security best practices
+
+## Support
+
+For issues related to:
+
+- **Development**: Check the setup script and documentation
+- **Deployment**: See the Deployment section above
+- **Security**: See the Security Policy section above
+- **Quarkus ROQ**: Refer to [Quarkus ROQ documentation](https://quarkiverse.github.io/quarkiverse-docs/quarkus-roq/dev/)
+
+## Acknowledgments
+
+We appreciate security researchers who responsibly disclose vulnerabilities. Contributors will be acknowledged in our security hall of fame (unless they prefer to remain anonymous).
+
+- PeruJUG community members
+- Quarkus ROQ framework contributors
+- Materialize CSS framework
+- GitHub for hosting and CI/CD services
 
 ## License
 
-This project is part of the PeruJUG community and follows the same licensing as the original perujugwebsite.
+This project is part of the PeruJUG community. See the LICENSE file for details.
 
-## Contact
+---
 
-- **Website**: https://perujug.org
-- **Twitter**: @perujug
-- **Meetup**: https://www.meetup.com/Peru-Java-User-Group/ 
+**Last Updated**: January 2025
+**Version**: 1.0.0
+**Next Security Review**: April 2025 
