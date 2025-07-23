@@ -35,18 +35,26 @@ This project is configured for automated deployment to GitHub Pages using GitHub
 
 ### Automatic Deployment
 1. **Push to main branch** triggers automatic deployment
-2. **GitHub Actions** builds and deploys the site
-3. **Site is available** at your GitHub Pages URL
+2. **GitHub Actions** builds the application and creates a static site
+3. **Site is deployed** to GitHub Pages automatically
+4. **Site is available** at your GitHub Pages URL
 
 ### Manual Deployment
 1. Go to **Actions** tab in your repository
 2. Select **Deploy PeruJUG Site to GitHub Pages**
 3. Click **Run workflow**
 
+### Deployment Process
+The deployment workflow:
+1. **Builds** the Quarkus application with production profile
+2. **Creates** a static site by copying public assets and content
+3. **Generates** proper HTML files for index and error pages
+4. **Deploys** the static site to GitHub Pages
+
 ### Configuration
 - **GitHub Pages**: Enable in repository settings
-- **Secrets**: Configure `GITHUB_PAGES_URL` in repository secrets
 - **Branch**: Deploys from `main` or `master` branch
+- **No secrets required**: Uses standard GitHub Actions permissions
 
 ## 🔒 Security
 
@@ -417,11 +425,15 @@ You can also trigger deployment manually:
 
 4. **Static Site Generation Issues**
    - **Error**: `Process completed with exit code 1` in "Generate ROQ Static Site" step
-   - **Solution**: Added robust error handling with fallback static site generation
+   - **Solution**: Replaced ROQ action with manual static site generation for better reliability
 
 5. **YAML Syntax Error**
    - **Error**: `Invalid workflow file: You have an error in your yaml syntax on line 90`
    - **Solution**: Replaced heredoc syntax with individual echo commands for HTML generation
+
+6. **ROQ Action Failures**
+   - **Error**: ROQ GitHub Action fails to generate static site
+   - **Solution**: Switched to manual static site generation that copies assets and creates proper HTML files
 
 6. **Site Not Updating**
    - Check GitHub Actions logs
@@ -467,12 +479,13 @@ ls -la target/site/index.html
 
 The GitHub Actions workflow has been optimized for better reliability and performance:
 
-- **Robust ROQ Static Generation**: Uses `quarkiverse/quarkus-roq@v1` action with fallback mechanism
+- **Manual Static Site Generation**: Replaced problematic ROQ action with reliable manual static site creation
 - **Fixed Package Type Issue**: Updated `quarkus.package.type` from `jar` to `fast-jar` to resolve deployment errors
-- **Enhanced Error Handling**: Includes fallback static site generation if ROQ action fails
+- **Enhanced Error Handling**: Robust error handling with proper HTML file generation
 - **Enhanced Verification**: Multiple verification steps ensure build quality
 - **Better Error Handling**: Clear error messages and early failure detection
 - **Optimized Caching**: Improved caching strategy for faster builds
+- **Reliable Deployment**: Simplified approach that works consistently
 
 ## Customization
 

@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Generate static site using official ROQ action
+  # Build and generate static site
   build:
     runs-on: ubuntu-latest
     steps:
@@ -28,14 +28,16 @@ jobs:
         with:
           fetch-depth: 0  # Full history for better caching
       
-      - name: Debug ROQ Configuration
+      - name: Debug Project Structure
         run: |
-          echo "🔍 Debugging ROQ configuration..."
+          echo "🔍 Debugging project structure..."
           echo "Current directory: $(pwd)"
           echo "Directory contents:"
           ls -la
           echo "Content directory:"
           ls -la content/ || echo "Content directory not found"
+          echo "Public directory:"
+          ls -la public/ || echo "Public directory not found"
           echo "Config directory:"
           ls -la config/ || echo "Config directory not found"
           echo "POM file exists:"
@@ -48,68 +50,171 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
       
-      - name: Generate ROQ Static Site
-        uses: quarkiverse/quarkus-roq@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          java-version: '17'
-          # Let the action auto-detect the GitHub Pages URL
-        continue-on-error: true
-      
-      - name: Check ROQ Generation
+      - name: Build Application
         run: |
-          if [ -d "target/site" ]; then
-            echo "✅ ROQ static site generated successfully"
-            ls -la target/site/
-          else
-            echo "❌ ROQ static site generation failed, trying alternative approach"
-            exit 1
-          fi
+          echo "🔨 Building application with prod profile..."
+          ./mvnw clean compile -Pprod
+          echo "✅ Build completed"
       
-      - name: Fallback Static Site Generation
-        if: failure()
+      - name: Create Static Site
         run: |
-          echo "🔄 Using fallback static site generation..."
-          
-          # Build the application first
-          ./mvnw clean compile
+          echo "📁 Creating static site..."
           
           # Create static site directory
           mkdir -p target/site
           
-          # Copy public assets
-          cp -r public/* target/site/ 2>/dev/null || echo "No public directory found"
-          
-          # Copy content files (this will be raw, but at least the site will work)
-          cp -r content/* target/site/ 2>/dev/null || echo "No content directory found"
-          
-          # Create a basic index.html if it doesn't exist
-          if [ ! -f "target/site/index.html" ]; then
-            echo "Creating fallback index.html..."
-            echo '<!DOCTYPE html>' > target/site/index.html
-            echo '<html lang="en">' >> target/site/index.html
-            echo '<head>' >> target/site/index.html
-            echo '    <meta charset="UTF-8">' >> target/site/index.html
-            echo '    <meta name="viewport" content="width=device-width, initial-scale=1.0">' >> target/site/index.html
-            echo '    <title>PeruJUG - Peru Java User Group</title>' >> target/site/index.html
-            echo '    <link rel="stylesheet" href="materialize.css">' >> target/site/index.html
-            echo '    <link rel="stylesheet" href="main.css">' >> target/site/index.html
-            echo '</head>' >> target/site/index.html
-            echo '<body>' >> target/site/index.html
-            echo '    <div class="container">' >> target/site/index.html
-            echo '        <h1>PeruJUG - Peru Java User Group</h1>' >> target/site/index.html
-            echo '        <p>Welcome to the Peru Java User Group website!</p>' >> target/site/index.html
-            echo '        <p>This site is currently being updated. Please check back soon.</p>' >> target/site/index.html
-            echo '    </div>' >> target/site/index.html
-            echo '    <script src="js/jquery.min.js"></script>' >> target/site/index.html
-            echo '    <script src="js/materialize.min.js"></script>' >> target/site/index.html
-            echo '    <script src="init.js"></script>' >> target/site/index.html
-            echo '</body>' >> target/site/index.html
-            echo '</html>' >> target/site/index.html
+          # Copy public assets (CSS, JS, images, etc.)
+          if [ -d "public" ]; then
+            echo "📋 Copying public assets..."
+            cp -r public/* target/site/
+          else
+            echo "⚠️ No public directory found"
           fi
           
-          echo "✅ Fallback static site created"
+          # Copy content files
+          if [ -d "content" ]; then
+            echo "📄 Copying content files..."
+            cp -r content/* target/site/
+          else
+            echo "⚠️ No content directory found"
+          fi
+          
+          # Copy data files
+          if [ -d "data" ]; then
+            echo "📊 Copying data files..."
+            cp -r data/* target/site/
+          else
+            echo "⚠️ No data directory found"
+          fi
+          
+          # Create a proper index.html if it doesn't exist or is not proper HTML
+          if [ ! -f "target/site/index.html" ] || ! grep -q "<!DOCTYPE html>" target/site/index.html; then
+            echo "🏠 Creating index.html..."
+            cat > target/site/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PeruJUG - Peru Java User Group</title>
+    <meta name="description" content="Comunidad de Java en Perú y JavaEE Guardian">
+    <link rel="stylesheet" href="materialize.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="icon" type="image/x-icon" href="images/logo.png">
+</head>
+<body>
+    <nav class="blue darken-3">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">PeruJUG</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="meetups.html">Meetups</a></li>
+                <li><a href="javaday/">Java Day</a></li>
+                <li><a href="posts/">Posts</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="section">
+            <h1 class="header center orange-text">PeruJUG</h1>
+            <div class="row center">
+                <h5 class="header col s12 light">Peru Java User Group</h5>
+                <p class="light">Comunidad de Java en Perú y JavaEE Guardian</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="row">
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+                        <h5 class="center">Comunidad</h5>
+                        <p class="light">Únete a nuestra comunidad de desarrolladores Java en Perú.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center light-blue-text"><i class="material-icons">event</i></h2>
+                        <h5 class="center">Meetups</h5>
+                        <p class="light">Participa en nuestros eventos y meetups regulares.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center light-blue-text"><i class="material-icons">code</i></h2>
+                        <h5 class="center">Tecnología</h5>
+                        <p class="light">Explora las últimas tecnologías Java y frameworks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer orange">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">PeruJUG</h5>
+                    <p class="grey-text text-lighten-4">Comunidad de Java en Perú</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Enlaces</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="https://twitter.com/perujug">Twitter</a></li>
+                        <li><a class="grey-text text-lighten-3" href="https://github.com/perujug">GitHub</a></li>
+                        <li><a class="grey-text text-lighten-3" href="mailto:perujug@gmail.com">Email</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2024 PeruJUG. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="init.js"></script>
+</body>
+</html>
+EOF
+          fi
+          
+          # Create a 404 page if it doesn't exist
+          if [ ! -f "target/site/404.html" ]; then
+            echo "🚫 Creating 404.html..."
+            cat > target/site/404.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página no encontrada | PeruJUG</title>
+    <link rel="stylesheet" href="materialize.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="container center-align" style="margin-top: 100px;">
+        <h1>404</h1>
+        <h3>Página no encontrada</h3>
+        <p>Lo sentimos, la página que buscas no existe.</p>
+        <a href="index.html" class="btn waves-effect waves-light">Volver al inicio</a>
+    </div>
+</body>
+</html>
+EOF
+          fi
+          
+          echo "✅ Static site created successfully"
+          echo "📁 Site contents:"
           ls -la target/site/
+          echo "📄 Files in site:"
+          find target/site -type f | head -20
 
   # Deploy to GitHub Pages
   deploy:
