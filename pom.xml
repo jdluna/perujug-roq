@@ -148,5 +148,35 @@
                 <quarkus.native.enabled>true</quarkus.native.enabled>
             </properties>
         </profile>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <property>
+                    <name>prod</name>
+                </property>
+            </activation>
+            <properties>
+                <quarkus.profile>prod</quarkus.profile>
+                <quarkus.package.type>jar</quarkus.package.type>
+                <quarkus.build.optimize>true</quarkus.build.optimize>
+                <quarkus.build.optimize.imports>true</quarkus.build.optimize.imports>
+            </properties>
+        </profile>
+        <profile>
+            <id>static</id>
+            <activation>
+                <property>
+                    <name>static</name>
+                </property>
+            </activation>
+            <properties>
+                <quarkus.profile>prod</quarkus.profile>
+                <quarkus.package.type>jar</quarkus.package.type>
+                <quarkus.build.optimize>true</quarkus.build.optimize>
+                <quarkus.build.optimize.imports>true</quarkus.build.optimize.imports>
+                <quarkus.roq.static.enabled>true</quarkus.roq.static.enabled>
+                <quarkus.roq.static.output-dir>target/site</quarkus.roq.static.output-dir>
+            </properties>
+        </profile>
     </profiles>
 </project> 
