@@ -86,28 +86,26 @@ jobs:
           # Create a basic index.html if it doesn't exist
           if [ ! -f "target/site/index.html" ]; then
             echo "Creating fallback index.html..."
-            cat > target/site/index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PeruJUG - Peru Java User Group</title>
-    <link rel="stylesheet" href="materialize.css">
-    <link rel="stylesheet" href="main.css">
-</head>
-<body>
-    <div class="container">
-        <h1>PeruJUG - Peru Java User Group</h1>
-        <p>Welcome to the Peru Java User Group website!</p>
-        <p>This site is currently being updated. Please check back soon.</p>
-    </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/materialize.min.js"></script>
-    <script src="init.js"></script>
-</body>
-</html>
-EOF
+            echo '<!DOCTYPE html>' > target/site/index.html
+            echo '<html lang="en">' >> target/site/index.html
+            echo '<head>' >> target/site/index.html
+            echo '    <meta charset="UTF-8">' >> target/site/index.html
+            echo '    <meta name="viewport" content="width=device-width, initial-scale=1.0">' >> target/site/index.html
+            echo '    <title>PeruJUG - Peru Java User Group</title>' >> target/site/index.html
+            echo '    <link rel="stylesheet" href="materialize.css">' >> target/site/index.html
+            echo '    <link rel="stylesheet" href="main.css">' >> target/site/index.html
+            echo '</head>' >> target/site/index.html
+            echo '<body>' >> target/site/index.html
+            echo '    <div class="container">' >> target/site/index.html
+            echo '        <h1>PeruJUG - Peru Java User Group</h1>' >> target/site/index.html
+            echo '        <p>Welcome to the Peru Java User Group website!</p>' >> target/site/index.html
+            echo '        <p>This site is currently being updated. Please check back soon.</p>' >> target/site/index.html
+            echo '    </div>' >> target/site/index.html
+            echo '    <script src="js/jquery.min.js"></script>' >> target/site/index.html
+            echo '    <script src="js/materialize.min.js"></script>' >> target/site/index.html
+            echo '    <script src="init.js"></script>' >> target/site/index.html
+            echo '</body>' >> target/site/index.html
+            echo '</html>' >> target/site/index.html
           fi
           
           echo "✅ Fallback static site created"

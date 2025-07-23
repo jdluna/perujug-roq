@@ -419,7 +419,11 @@ You can also trigger deployment manually:
    - **Error**: `Process completed with exit code 1` in "Generate ROQ Static Site" step
    - **Solution**: Added robust error handling with fallback static site generation
 
-5. **Site Not Updating**
+5. **YAML Syntax Error**
+   - **Error**: `Invalid workflow file: You have an error in your yaml syntax on line 90`
+   - **Solution**: Replaced heredoc syntax with individual echo commands for HTML generation
+
+6. **Site Not Updating**
    - Check GitHub Actions logs
    - Verify deployment completed successfully
    - Clear browser cache
