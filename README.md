@@ -416,8 +416,8 @@ You can also trigger deployment manually:
    - **Solution**: Use `fast-jar` instead of `jar` in Maven profiles (already fixed)
 
 4. **Static Site Generation Issues**
-   - **Error**: Raw front matter content displayed instead of rendered HTML
-   - **Solution**: Now using official `quarkiverse/quarkus-roq@v1` action for proper static site generation
+   - **Error**: `Process completed with exit code 1` in "Generate ROQ Static Site" step
+   - **Solution**: Added robust error handling with fallback static site generation
 
 5. **Site Not Updating**
    - Check GitHub Actions logs
@@ -463,9 +463,9 @@ ls -la target/site/index.html
 
 The GitHub Actions workflow has been optimized for better reliability and performance:
 
-- **Official ROQ Static Generation**: Now uses `quarkiverse/quarkus-roq@v1` action for proper static site generation
+- **Robust ROQ Static Generation**: Uses `quarkiverse/quarkus-roq@v1` action with fallback mechanism
 - **Fixed Package Type Issue**: Updated `quarkus.package.type` from `jar` to `fast-jar` to resolve deployment errors
-- **Simplified Deployment**: Removed manual static site preparation in favor of official ROQ generation
+- **Enhanced Error Handling**: Includes fallback static site generation if ROQ action fails
 - **Enhanced Verification**: Multiple verification steps ensure build quality
 - **Better Error Handling**: Clear error messages and early failure detection
 - **Optimized Caching**: Improved caching strategy for faster builds

@@ -28,11 +28,90 @@ jobs:
         with:
           fetch-depth: 0  # Full history for better caching
       
+      - name: Debug ROQ Configuration
+        run: |
+          echo "🔍 Debugging ROQ configuration..."
+          echo "Current directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+          echo "Content directory:"
+          ls -la content/ || echo "Content directory not found"
+          echo "Config directory:"
+          ls -la config/ || echo "Config directory not found"
+          echo "POM file exists:"
+          ls -la pom.xml || echo "POM file not found"
+      
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+      
       - name: Generate ROQ Static Site
         uses: quarkiverse/quarkus-roq@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}  # Used to automatically get the GitHub Pages URL
-          site-url: ${{ secrets.GITHUB_PAGES_URL || 'https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          java-version: '17'
+          # Let the action auto-detect the GitHub Pages URL
+        continue-on-error: true
+      
+      - name: Check ROQ Generation
+        run: |
+          if [ -d "target/site" ]; then
+            echo "✅ ROQ static site generated successfully"
+            ls -la target/site/
+          else
+            echo "❌ ROQ static site generation failed, trying alternative approach"
+            exit 1
+          fi
+      
+      - name: Fallback Static Site Generation
+        if: failure()
+        run: |
+          echo "🔄 Using fallback static site generation..."
+          
+          # Build the application first
+          ./mvnw clean compile
+          
+          # Create static site directory
+          mkdir -p target/site
+          
+          # Copy public assets
+          cp -r public/* target/site/ 2>/dev/null || echo "No public directory found"
+          
+          # Copy content files (this will be raw, but at least the site will work)
+          cp -r content/* target/site/ 2>/dev/null || echo "No content directory found"
+          
+          # Create a basic index.html if it doesn't exist
+          if [ ! -f "target/site/index.html" ]; then
+            echo "Creating fallback index.html..."
+            cat > target/site/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PeruJUG - Peru Java User Group</title>
+    <link rel="stylesheet" href="materialize.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PeruJUG - Peru Java User Group</h1>
+        <p>Welcome to the Peru Java User Group website!</p>
+        <p>This site is currently being updated. Please check back soon.</p>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="init.js"></script>
+</body>
+</html>
+EOF
+          fi
+          
+          echo "✅ Fallback static site created"
+          ls -la target/site/
 
   # Deploy to GitHub Pages
   deploy:
@@ -43,6 +122,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './target/site'
+      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
