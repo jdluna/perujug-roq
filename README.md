@@ -380,16 +380,12 @@ The project includes several Maven profiles for different deployment scenarios:
 
 1. **Push to main branch** triggers the workflow
 2. **Build process**:
-   - Sets up Java 17 environment
-   - Verifies Maven wrapper
-   - Caches Maven dependencies and Quarkus builds
-   - Compiles the application
-   - Builds static site using the `static` profile
-   - Verifies generated site and essential files
+   - Uses official `quarkiverse/quarkus-roq@v1` action
+   - Automatically generates static site from ROQ content
+   - Processes front matter and templates correctly
+   - Handles all ROQ-specific syntax and includes
 3. **Deployment process**:
-   - Downloads and verifies build artifacts
-   - Uploads to GitHub Pages
-   - Deploys to your GitHub Pages URL
+   - Automatically deploys to GitHub Pages
    - Provides deployment verification and timing
 
 ### Manual Deployment
@@ -419,9 +415,9 @@ You can also trigger deployment manually:
    - **Error**: `SRCFG00039: The config property quarkus.package.jar.type with the config value "jar" threw an Exception`
    - **Solution**: Use `fast-jar` instead of `jar` in Maven profiles (already fixed)
 
-4. **Static Site Preparation Error**
-   - **Error**: `Process completed with exit code 2` in "Prepare static site for GitHub Pages" step
-   - **Solution**: Enhanced error handling, debugging, and simplified file creation (already fixed)
+4. **Static Site Generation Issues**
+   - **Error**: Raw front matter content displayed instead of rendered HTML
+   - **Solution**: Now using official `quarkiverse/quarkus-roq@v1` action for proper static site generation
 
 5. **Site Not Updating**
    - Check GitHub Actions logs
@@ -467,12 +463,12 @@ ls -la target/site/index.html
 
 The GitHub Actions workflow has been optimized for better reliability and performance:
 
+- **Official ROQ Static Generation**: Now uses `quarkiverse/quarkus-roq@v1` action for proper static site generation
 - **Fixed Package Type Issue**: Updated `quarkus.package.type` from `jar` to `fast-jar` to resolve deployment errors
-- **Static Site Preparation**: Added manual static site generation for GitHub Pages compatibility
+- **Simplified Deployment**: Removed manual static site preparation in favor of official ROQ generation
 - **Enhanced Verification**: Multiple verification steps ensure build quality
 - **Better Error Handling**: Clear error messages and early failure detection
 - **Optimized Caching**: Improved caching strategy for faster builds
-- **Streamlined Artifacts**: Simplified artifact management and paths
 
 ## Customization
 

@@ -19,174 +19,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Build and test the application
+  # Generate static site using official ROQ action
   build:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Full history for better caching
       
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Generate ROQ Static Site
+        uses: quarkiverse/quarkus-roq@v1
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'maven'
-      
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      
-      - name: Cache Quarkus build
-        uses: actions/cache@v4
-        with:
-          path: target
-          key: ${{ runner.os }}-quarkus-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-quarkus
-      
-      - name: Verify Maven wrapper
-        run: |
-          chmod +x ./mvnw
-          ./mvnw --version
-      
-      - name: Build with Maven
-        run: |
-          ./mvnw clean compile
-        env:
-          # Use GitHub Pages URL for production build
-          QUARKUS_ROQ_SITE_URL: ${{ secrets.GITHUB_PAGES_URL || 'https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}' }}
-      
-      - name: Build production JAR
-        run: |
-          # Build production JAR using the static profile
-          ./mvnw clean package -Pstatic
-        env:
-          # Use GitHub Pages URL for production build
-          QUARKUS_ROQ_SITE_URL: ${{ secrets.GITHUB_PAGES_URL || 'https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}' }}
-      
-      - name: Verify JAR build
-        run: |
-          if [ ! -f "target/perujug-roq-1.0.0-SNAPSHOT.jar" ]; then
-            echo "❌ JAR file was not generated"
-            exit 1
-          fi
-          
-          echo "✅ JAR file generated successfully"
-          echo "📁 Build contents:"
-          ls -la target/
-          
-          # Check for quarkus-app directory
-          if [ ! -d "target/quarkus-app" ]; then
-            echo "❌ quarkus-app directory not found"
-            exit 1
-          fi
-          
-          echo "✅ Quarkus application directory found"
-      
-      - name: Debug environment
-        run: |
-          echo "🔍 Debugging environment..."
-          echo "Current directory: $(pwd)"
-          echo "Directory contents:"
-          ls -la
-          echo "GitHub workspace: $GITHUB_WORKSPACE"
-          echo "Available disk space:"
-          df -h
-          echo "Memory usage:"
-          free -h || echo "free command not available"
-      
-      - name: Prepare static site for GitHub Pages
-        run: |
-          set -e  # Exit on any error
-          
-          echo "🔧 Creating static site directory..."
-          mkdir -p target/site
-          
-          echo "📁 Checking source directories..."
-          echo "Public directory contents:"
-          ls -la public/ || echo "Public directory not found or empty"
-          
-          echo "Content directory contents:"
-          ls -la content/ || echo "Content directory not found or empty"
-          
-          echo "📋 Copying public assets..."
-          if [ -d "public" ] && [ "$(ls -A public)" ]; then
-            cp -r public/* target/site/ || echo "Warning: Failed to copy some public files"
-          else
-            echo "Warning: Public directory is empty or doesn't exist"
-          fi
-          
-          echo "📋 Copying content files..."
-          if [ -d "content" ] && [ "$(ls -A content)" ]; then
-            cp -r content/* target/site/ || echo "Warning: Failed to copy some content files"
-          else
-            echo "Warning: Content directory is empty or doesn't exist"
-          fi
-          
-          echo "📄 Creating index.html if needed..."
-          if [ ! -f "target/site/index.html" ]; then
-            echo "Creating default index.html..."
-            echo '<!DOCTYPE html>' > target/site/index.html
-            echo '<html lang="en">' >> target/site/index.html
-            echo '<head>' >> target/site/index.html
-            echo '    <meta charset="UTF-8">' >> target/site/index.html
-            echo '    <meta name="viewport" content="width=device-width, initial-scale=1.0">' >> target/site/index.html
-            echo '    <title>PeruJUG - Peru Java User Group</title>' >> target/site/index.html
-            echo '    <link rel="stylesheet" href="materialize.css">' >> target/site/index.html
-            echo '    <link rel="stylesheet" href="main.css">' >> target/site/index.html
-            echo '</head>' >> target/site/index.html
-            echo '<body>' >> target/site/index.html
-            echo '    <div class="container">' >> target/site/index.html
-            echo '        <h1>PeruJUG - Peru Java User Group</h1>' >> target/site/index.html
-            echo '        <p>Welcome to the Peru Java User Group website!</p>' >> target/site/index.html
-            echo '        <p>This site is currently being updated. Please check back soon.</p>' >> target/site/index.html
-            echo '    </div>' >> target/site/index.html
-            echo '    <script src="js/jquery.min.js"></script>' >> target/site/index.html
-            echo '    <script src="js/materialize.min.js"></script>' >> target/site/index.html
-            echo '    <script src="init.js"></script>' >> target/site/index.html
-            echo '</body>' >> target/site/index.html
-            echo '</html>' >> target/site/index.html
-            echo "✅ Created default index.html"
-          else
-            echo "✅ index.html already exists"
-          fi
-          
-          echo "✅ Static site prepared for GitHub Pages"
-          echo "📁 Final site contents:"
-          ls -la target/site/
-          
-          # Verify we have at least an index.html
-          if [ ! -f "target/site/index.html" ]; then
-            echo "❌ ERROR: index.html was not created"
-            exit 1
-          fi
-          
-          echo "✅ Verification complete - index.html exists"
-          
-          # Final verification - ensure we have a working site
-          echo "🔍 Final site verification..."
-          echo "Total files in site: $(find target/site -type f | wc -l)"
-          echo "Site size: $(du -sh target/site)"
-          
-          if [ ! -s "target/site/index.html" ]; then
-            echo "❌ ERROR: index.html is empty"
-            exit 1
-          fi
-          
-          echo "✅ Site preparation completed successfully!"
-      
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-build
-          path: target/site/
-          retention-days: 1
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # Used to automatically get the GitHub Pages URL
+          site-url: ${{ secrets.GITHUB_PAGES_URL || 'https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}' }}
 
   # Deploy to GitHub Pages
   deploy:
@@ -197,39 +43,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: site-build
-          path: site-files
-      
-      - name: Verify downloaded artifacts
-        run: |
-          if [ ! -d "site-files" ]; then
-            echo "❌ Site files not found"
-            exit 1
-          fi
-          
-          echo "✅ Site files downloaded successfully"
-          echo "📁 Downloaded contents:"
-          ls -la site-files/
-          
-          # Check for essential files
-          if [ ! -f "site-files/index.html" ]; then
-            echo "❌ index.html not found in downloaded files"
-            exit 1
-          fi
-          
-          echo "✅ Essential files verified"
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      
-      - name: Upload to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './site-files'
-      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
