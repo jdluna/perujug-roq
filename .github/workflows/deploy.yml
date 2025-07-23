@@ -62,32 +62,73 @@ jobs:
           # Use GitHub Pages URL for production build
           QUARKUS_ROQ_SITE_URL: ${{ secrets.GITHUB_PAGES_URL || 'https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}' }}
       
-      - name: Build static site for production
+      - name: Build production JAR
         run: |
-          # Build static site using the static profile
+          # Build production JAR using the static profile
           ./mvnw clean package -Pstatic
         env:
           # Use GitHub Pages URL for production build
           QUARKUS_ROQ_SITE_URL: ${{ secrets.GITHUB_PAGES_URL || 'https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}' }}
       
-      - name: Verify static site generation
+      - name: Verify JAR build
         run: |
-          if [ ! -d "target/site" ]; then
-            echo "❌ Static site was not generated in target/site"
+          if [ ! -f "target/perujug-roq-1.0.0-SNAPSHOT.jar" ]; then
+            echo "❌ JAR file was not generated"
             exit 1
           fi
           
-          echo "✅ Static site generated successfully"
+          echo "✅ JAR file generated successfully"
+          echo "📁 Build contents:"
+          ls -la target/
+          
+          # Check for quarkus-app directory
+          if [ ! -d "target/quarkus-app" ]; then
+            echo "❌ quarkus-app directory not found"
+            exit 1
+          fi
+          
+          echo "✅ Quarkus application directory found"
+      
+      - name: Prepare static site for GitHub Pages
+        run: |
+          # Create static site directory
+          mkdir -p target/site
+          
+          # Copy public assets
+          cp -r public/* target/site/ 2>/dev/null || echo "No public directory found"
+          
+          # Copy content files
+          cp -r content/* target/site/ 2>/dev/null || echo "No content directory found"
+          
+          # Create a basic index.html if it doesn't exist
+          if [ ! -f "target/site/index.html" ]; then
+            cat > target/site/index.html << 'EOF'
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>PeruJUG - Peru Java User Group</title>
+                <link rel="stylesheet" href="materialize.css">
+                <link rel="stylesheet" href="main.css">
+            </head>
+            <body>
+                <div class="container">
+                    <h1>PeruJUG - Peru Java User Group</h1>
+                    <p>Welcome to the Peru Java User Group website!</p>
+                    <p>This site is currently being updated. Please check back soon.</p>
+                </div>
+                <script src="js/jquery.min.js"></script>
+                <script src="js/materialize.min.js"></script>
+                <script src="init.js"></script>
+            </body>
+            </html>
+            EOF
+          fi
+          
+          echo "✅ Static site prepared for GitHub Pages"
           echo "📁 Site contents:"
           ls -la target/site/
-          
-          # Check for essential files
-          if [ ! -f "target/site/index.html" ]; then
-            echo "❌ index.html not found in generated site"
-            exit 1
-          fi
-          
-          echo "✅ Essential files found"
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

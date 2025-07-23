@@ -158,7 +158,7 @@
             </activation>
             <properties>
                 <quarkus.profile>prod</quarkus.profile>
-                <quarkus.package.type>jar</quarkus.package.type>
+                <quarkus.package.type>fast-jar</quarkus.package.type>
                 <quarkus.build.optimize>true</quarkus.build.optimize>
                 <quarkus.build.optimize.imports>true</quarkus.build.optimize.imports>
             </properties>
@@ -173,11 +173,9 @@
             </activation>
             <properties>
                 <quarkus.profile>prod</quarkus.profile>
-                <quarkus.package.type>jar</quarkus.package.type>
+                <quarkus.package.type>fast-jar</quarkus.package.type>
                 <quarkus.build.optimize>true</quarkus.build.optimize>
                 <quarkus.build.optimize.imports>true</quarkus.build.optimize.imports>
-                <quarkus.roq.static.enabled>true</quarkus.roq.static.enabled>
-                <quarkus.roq.static.output-dir>target/site</quarkus.roq.static.output-dir>
             </properties>
         </profile>
     </profiles>

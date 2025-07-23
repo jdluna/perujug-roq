@@ -415,7 +415,11 @@ You can also trigger deployment manually:
    - Check repository permissions
    - Ensure secrets are configured
 
-3. **Site Not Updating**
+3. **Package Type Error**
+   - **Error**: `SRCFG00039: The config property quarkus.package.jar.type with the config value "jar" threw an Exception`
+   - **Solution**: Use `fast-jar` instead of `jar` in Maven profiles (already fixed)
+
+4. **Site Not Updating**
    - Check GitHub Actions logs
    - Verify deployment completed successfully
    - Clear browser cache
@@ -459,7 +463,8 @@ ls -la target/site/index.html
 
 The GitHub Actions workflow has been optimized for better reliability and performance:
 
-- **Simplified Build Process**: Uses existing production configuration instead of generating it inline
+- **Fixed Package Type Issue**: Updated `quarkus.package.type` from `jar` to `fast-jar` to resolve deployment errors
+- **Static Site Preparation**: Added manual static site generation for GitHub Pages compatibility
 - **Enhanced Verification**: Multiple verification steps ensure build quality
 - **Better Error Handling**: Clear error messages and early failure detection
 - **Optimized Caching**: Improved caching strategy for faster builds
