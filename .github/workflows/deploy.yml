@@ -89,46 +89,97 @@ jobs:
           
           echo "✅ Quarkus application directory found"
       
+      - name: Debug environment
+        run: |
+          echo "🔍 Debugging environment..."
+          echo "Current directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+          echo "GitHub workspace: $GITHUB_WORKSPACE"
+          echo "Available disk space:"
+          df -h
+          echo "Memory usage:"
+          free -h || echo "free command not available"
+      
       - name: Prepare static site for GitHub Pages
         run: |
-          # Create static site directory
+          set -e  # Exit on any error
+          
+          echo "🔧 Creating static site directory..."
           mkdir -p target/site
           
-          # Copy public assets
-          cp -r public/* target/site/ 2>/dev/null || echo "No public directory found"
+          echo "📁 Checking source directories..."
+          echo "Public directory contents:"
+          ls -la public/ || echo "Public directory not found or empty"
           
-          # Copy content files
-          cp -r content/* target/site/ 2>/dev/null || echo "No content directory found"
+          echo "Content directory contents:"
+          ls -la content/ || echo "Content directory not found or empty"
           
-          # Create a basic index.html if it doesn't exist
+          echo "📋 Copying public assets..."
+          if [ -d "public" ] && [ "$(ls -A public)" ]; then
+            cp -r public/* target/site/ || echo "Warning: Failed to copy some public files"
+          else
+            echo "Warning: Public directory is empty or doesn't exist"
+          fi
+          
+          echo "📋 Copying content files..."
+          if [ -d "content" ] && [ "$(ls -A content)" ]; then
+            cp -r content/* target/site/ || echo "Warning: Failed to copy some content files"
+          else
+            echo "Warning: Content directory is empty or doesn't exist"
+          fi
+          
+          echo "📄 Creating index.html if needed..."
           if [ ! -f "target/site/index.html" ]; then
-            cat > target/site/index.html << 'EOF'
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>PeruJUG - Peru Java User Group</title>
-                <link rel="stylesheet" href="materialize.css">
-                <link rel="stylesheet" href="main.css">
-            </head>
-            <body>
-                <div class="container">
-                    <h1>PeruJUG - Peru Java User Group</h1>
-                    <p>Welcome to the Peru Java User Group website!</p>
-                    <p>This site is currently being updated. Please check back soon.</p>
-                </div>
-                <script src="js/jquery.min.js"></script>
-                <script src="js/materialize.min.js"></script>
-                <script src="init.js"></script>
-            </body>
-            </html>
-            EOF
+            echo "Creating default index.html..."
+            echo '<!DOCTYPE html>' > target/site/index.html
+            echo '<html lang="en">' >> target/site/index.html
+            echo '<head>' >> target/site/index.html
+            echo '    <meta charset="UTF-8">' >> target/site/index.html
+            echo '    <meta name="viewport" content="width=device-width, initial-scale=1.0">' >> target/site/index.html
+            echo '    <title>PeruJUG - Peru Java User Group</title>' >> target/site/index.html
+            echo '    <link rel="stylesheet" href="materialize.css">' >> target/site/index.html
+            echo '    <link rel="stylesheet" href="main.css">' >> target/site/index.html
+            echo '</head>' >> target/site/index.html
+            echo '<body>' >> target/site/index.html
+            echo '    <div class="container">' >> target/site/index.html
+            echo '        <h1>PeruJUG - Peru Java User Group</h1>' >> target/site/index.html
+            echo '        <p>Welcome to the Peru Java User Group website!</p>' >> target/site/index.html
+            echo '        <p>This site is currently being updated. Please check back soon.</p>' >> target/site/index.html
+            echo '    </div>' >> target/site/index.html
+            echo '    <script src="js/jquery.min.js"></script>' >> target/site/index.html
+            echo '    <script src="js/materialize.min.js"></script>' >> target/site/index.html
+            echo '    <script src="init.js"></script>' >> target/site/index.html
+            echo '</body>' >> target/site/index.html
+            echo '</html>' >> target/site/index.html
+            echo "✅ Created default index.html"
+          else
+            echo "✅ index.html already exists"
           fi
           
           echo "✅ Static site prepared for GitHub Pages"
-          echo "📁 Site contents:"
+          echo "📁 Final site contents:"
           ls -la target/site/
+          
+          # Verify we have at least an index.html
+          if [ ! -f "target/site/index.html" ]; then
+            echo "❌ ERROR: index.html was not created"
+            exit 1
+          fi
+          
+          echo "✅ Verification complete - index.html exists"
+          
+          # Final verification - ensure we have a working site
+          echo "🔍 Final site verification..."
+          echo "Total files in site: $(find target/site -type f | wc -l)"
+          echo "Site size: $(du -sh target/site)"
+          
+          if [ ! -s "target/site/index.html" ]; then
+            echo "❌ ERROR: index.html is empty"
+            exit 1
+          fi
+          
+          echo "✅ Site preparation completed successfully!"
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

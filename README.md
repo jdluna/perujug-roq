@@ -419,7 +419,11 @@ You can also trigger deployment manually:
    - **Error**: `SRCFG00039: The config property quarkus.package.jar.type with the config value "jar" threw an Exception`
    - **Solution**: Use `fast-jar` instead of `jar` in Maven profiles (already fixed)
 
-4. **Site Not Updating**
+4. **Static Site Preparation Error**
+   - **Error**: `Process completed with exit code 2` in "Prepare static site for GitHub Pages" step
+   - **Solution**: Enhanced error handling, debugging, and simplified file creation (already fixed)
+
+5. **Site Not Updating**
    - Check GitHub Actions logs
    - Verify deployment completed successfully
    - Clear browser cache
