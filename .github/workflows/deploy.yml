@@ -1,45 +1,39 @@
 name: Deploy PeruJUG Site to GitHub Pages
-
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]   # Switch to the branch which should be deployed to GitHub Pages
   workflow_dispatch:
 
+# Set permissions for GitHub Pages deployment
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      # Check out code
       - uses: actions/checkout@v4
-
-      # Set up Java (Temurin 21)
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
+      - name: Generate Roq Site
+        uses: quarkiverse/quarkus-roq@v1
         with:
-          java-version: 21
-          distribution: temurin
-          cache: maven
-
-      # Build static site using Maven with the 'static' profile
-      - name: Build static site
-        run: ./mvnw clean package -Pstatic
-
-      # Upload static site to GitHub Pages artifact
-      - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: target/site  # Should match <quarkus.roq.static.output-dir>
-
-      # Deploy to GitHub Pages
+          github-token: ${{ secrets.GITHUB_TOKEN }}   # Used to automatically get the GitHub Pages url
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

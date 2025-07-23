@@ -71,6 +71,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.quarkiverse.roq</groupId>
+            <artifactId>quarkus-roq-generator</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
@@ -173,10 +178,9 @@
                 <quarkus.profile>prod</quarkus.profile>
                 <quarkus.package.type>fast-jar</quarkus.package.type>
                 <quarkus.build.optimize>true</quarkus.build.optimize>
-                <quarkus.build.optimize.imports>true</quarkus.build.optimize.imports>
                 <quarkus.roq.static.enabled>true</quarkus.roq.static.enabled>
                 <quarkus.roq.static.output-dir>target/site</quarkus.roq.static.output-dir>
             </properties>
         </profile>
     </profiles>
-</project> 
+</project>
