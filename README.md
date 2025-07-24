@@ -33,6 +33,25 @@ This is the PeruJUG (Peru Java User Group) website implemented using Quarkus ROQ
 
 This project is configured for automated deployment to GitHub Pages using GitHub Actions.
 
+### GitHub Pages Setup
+
+To enable GitHub Pages for this repository:
+
+1. **Go to Repository Settings**
+   - Navigate to your repository on GitHub
+   - Click on **Settings** tab
+
+2. **Enable GitHub Pages**
+   - Scroll down to **Pages** section in the left sidebar
+   - Under **Source**, select **GitHub Actions**
+   - This allows the workflow to deploy automatically
+
+3. **Configure Branch Protection (Optional)**
+   - Go to **Branches** section
+   - Add rule for `main` branch
+   - Enable **Require status checks to pass before merging**
+   - Select the **CI - Build and Test** workflow
+
 ### Automatic Deployment
 1. **Push to main branch** triggers automatic deployment
 2. **GitHub Actions** builds the application and creates a static site
@@ -44,12 +63,30 @@ This project is configured for automated deployment to GitHub Pages using GitHub
 2. Select **Deploy PeruJUG Site to GitHub Pages**
 3. Click **Run workflow**
 
+### Workflow Files
+
+The project includes two GitHub Actions workflows:
+
+- **`.github/workflows/ci.yml`**: 
+  - Runs on pull requests and pushes to main
+  - Builds and tests the application
+  - Verifies static site generation works
+  - Does NOT deploy to GitHub Pages
+
+- **`.github/workflows/deploy.yml`**: 
+  - Runs only on pushes to main branch
+  - Builds the application with production settings
+  - Generates static site in `target/roq/`
+  - Deploys to GitHub Pages
+  - Uses GitHub Pages deployment action
+
 ### Deployment Process
 The deployment workflow:
-1. **Builds** the Quarkus application with production profile
-2. **Creates** a static site by copying public assets and content
-3. **Generates** proper HTML files for index and error pages
-4. **Deploys** the static site to GitHub Pages
+1. **Sets up** Java 17 and Maven environment
+2. **Builds** the Quarkus application with `QUARKUS_ROQ_GENERATOR_BATCH=true`
+3. **Generates** static site in `target/roq/` directory
+4. **Uploads** the static site as GitHub Pages artifact
+5. **Deploys** to GitHub Pages using official deployment action
 
 ### Configuration
 - **GitHub Pages**: Enable in repository settings

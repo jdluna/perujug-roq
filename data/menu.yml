@@ -2,6 +2,18 @@
 # This file contains dynamic configuration for the navigation menu
 # Similar to roq-bistro's menu.yml approach
 
+# Top-level items for ROQ default theme compatibility
+items:
+  - title: "Inicio"
+    url: "/perujug-roq/"
+    icon: "home"
+    external: false
+    
+  - title: "Jconf Peru"
+    url: "https://jconfperu.org/"
+    icon: ""
+    external: true
+
 # Main navigation menu items
 main_menu:
   - title: "Inicio"
