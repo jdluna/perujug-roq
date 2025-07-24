@@ -40,7 +40,7 @@ jobs:
           
       - name: Build and generate static site
         run: |
-          QUARKUS_ROQ_GENERATOR_BATCH=true mvn clean package -DskipTests
+          QUARKUS_ROQ_GENERATOR_BATCH=true mvn package quarkus:run -DskipTests
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
