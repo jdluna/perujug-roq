@@ -13,4 +13,4 @@ layout: post
 
 image::/perujug-roq/images/javadayperu/2018/001.javaday18.jpeg[Java Day Peru 2018, class="responsive-img"]
 
-For further information about the event, please visit link:/javaday/2018/[Peru Javaday 2018]. 
+For further information about the event, please visit link:/perujug-roq/javaday/2018/[Peru Javaday 2018]. 
