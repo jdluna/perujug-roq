@@ -591,3 +591,139 @@ p.rss-subscribe {
     background-color: #0288d1;
     text-decoration: none;
 }
+
+/* Multiple selectors for meetup post image styling - reduce size and center */
+.post-content img.responsive-img,
+.post img.responsive-img,
+article img.responsive-img,
+.section img.responsive-img,
+.container img.responsive-img,
+.imageblock img,
+.post .imageblock img,
+.post-content .imageblock img {
+    max-width: 70% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 1rem auto !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Responsive adjustments for smaller screens */
+@media only screen and (max-width: 768px) {
+    .post-content img.responsive-img,
+    .post img.responsive-img,
+    article img.responsive-img,
+    .section img.responsive-img,
+    .container img.responsive-img,
+    .imageblock img,
+    .post .imageblock img,
+    .post-content .imageblock img {
+        max-width: 90% !important;
+        margin: 0.5rem auto !important;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .post-content img.responsive-img,
+    .post img.responsive-img,
+    article img.responsive-img,
+    .section img.responsive-img,
+    .container img.responsive-img,
+    .imageblock img,
+    .post .imageblock img,
+    .post-content .imageblock img {
+        max-width: 95% !important;
+        margin: 0.25rem auto !important;
+    }
+}
+
+/* Utility classes for different image sizes - you can add these classes to your images */
+.img-small {
+    max-width: 50% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 1rem auto !important;
+}
+
+.img-medium {
+    max-width: 70% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 1rem auto !important;
+}
+
+.img-large {
+    max-width: 90% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 1rem auto !important;
+}
+
+/* Specific width classes */
+.img-width-30 { max-width: 30% !important; }
+.img-width-40 { max-width: 40% !important; }
+.img-width-50 { max-width: 50% !important; }
+.img-width-60 { max-width: 60% !important; }
+.img-width-70 { max-width: 70% !important; }
+.img-width-80 { max-width: 80% !important; }
+.img-width-90 { max-width: 90% !important; }
+
+/* Apply common styling to all width classes */
+.img-width-30, .img-width-40, .img-width-50, .img-width-60, 
+.img-width-70, .img-width-80, .img-width-90 {
+    height: auto !important;
+    display: block !important;
+    margin: 1rem auto !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Target images within imageblock containers */
+.imageblock img.img-small,
+.imageblock img.img-medium,
+.imageblock img.img-large,
+.imageblock img.img-width-30,
+.imageblock img.img-width-40,
+.imageblock img.img-width-50,
+.imageblock img.img-width-60,
+.imageblock img.img-width-70,
+.imageblock img.img-width-80,
+.imageblock img.img-width-90 {
+    height: auto !important;
+    display: block !important;
+    margin: 1rem auto !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Force all images in post content to be smaller by default */
+.post .imageblock img,
+.post-content .imageblock img,
+article .imageblock img {
+    max-width: 50% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 1rem auto !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Responsive adjustments for post images */
+@media only screen and (max-width: 768px) {
+    .post .imageblock img,
+    .post-content .imageblock img,
+    article .imageblock img {
+        max-width: 80% !important;
+        margin: 0.5rem auto !important;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .post .imageblock img,
+    .post-content .imageblock img,
+    article .imageblock img {
+        max-width: 95% !important;
+        margin: 0.25rem auto !important;
+    }
+}

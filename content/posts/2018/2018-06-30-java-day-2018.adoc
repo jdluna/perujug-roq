@@ -5,6 +5,7 @@ description: "Java Day Peru 2018 - A fantastic day in Lima with 10 best Java dev
 tags: ["java", "conference", "peru", "events"]
 type: post
 link: /:year/:slug
+slug: java-day-2018
 status: published
 layout: post
 ---

@@ -1,0 +1,24 @@
+---
+title: "Peru JUG Meetup Julio 2025"
+date: 2025-07-24
+description: "Peru JUG Meetup Julio 2025 - Un reencuentro con la comunidad Java"
+tags: ["java", "meetup", "peru", "events"]
+type: post
+link: /:year/:slug
+slug: perujug-meetup-2025
+status: published
+layout: post
+---
+
+El 24 de Julio de 2025 fue un dia muy especial, después de mucho tiempo nos volvimos a reunir con la comunidad, esta vez aprovechando la visita de Eddu Melendez
+
+image::/perujug-roq/images/meetups/24-07-2025/001.meetup.jpg[Peru JUG Meetup Julio 2025, class="responsive-img img-width-30"]
+
+image::/perujug-roq/images/meetups/24-07-2025/002.meetup.jpg[Peru JUG Meetup Julio 2025, class="responsive-img img-width-30"]
+
+image::/perujug-roq/images/meetups/24-07-2025/003.meetup.jpg[Peru JUG Meetup Julio 2025, class="responsive-img img-medium"]
+
+image::/perujug-roq/images/meetups/24-07-2025/004.meetup.jpg[Peru JUG Meetup Julio 2025, class="responsive-img img-width-30"]
+
+image::/perujug-roq/images/meetups/24-07-2025/005.meetup.jpg[Peru JUG Meetup Julio 2025, class="responsive-img img-small"]
+ 

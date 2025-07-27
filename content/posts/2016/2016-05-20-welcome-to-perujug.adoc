@@ -5,6 +5,7 @@ description: "This is an early version of the PeruJUG website, which will be imp
 tags: ["community", "welcome", "perujug"]
 type: post
 link: /:year/:slug
+slug: welcome-to-perujug
 status: published
 layout: post
 ---
