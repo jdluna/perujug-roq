@@ -57,7 +57,7 @@
         <dependency>
             <groupId>io.quarkiverse.roq</groupId>
             <artifactId>quarkus-roq-plugin-sitemap</artifactId>
-            <version>1.6.3</version>
+            <version>1.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
